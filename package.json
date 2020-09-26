@@ -1,0 +1,17 @@
+{
+  "name": "taci-talk",
+  "version": "1.0.0",
+  "description": "taci-talk chat component",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Roshan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.7",
+    "morgan": "^1.10.0"
+  }
+}
