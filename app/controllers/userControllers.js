@@ -1,4 +1,3 @@
-const { populate } = require('../models/user')
 const User = require('../models/user')
 const userControllers = {}
 
@@ -13,19 +12,21 @@ userControllers.register = (req,res) => {
     })
 }
 
-userControllers.getUser = (req,res) => {
-    const id = req.params.id
-    User.findOne({_id:id})
+userControllers.getUserChat = (req,res) => {
+    const _id = req.params.id
+    const info = req.params.recipient
+    //const username = req.params.id
+    User.findOne({_id,'inbox.info':info})
         .populate('inbox.info','username')
         .populate('inbox.chats', 'sender recipient message')
         .then(user => {
-            user.execPopulate('inbox.chats.sender','username')
-            user.execPopulate('inbox.chats.recipient','username').then(
-                populated=>{
-
-                    res.json(populated)
-                }
-            )
+            // user.execPopulate('inbox.chats.sender','username')
+            // user.execPopulate('inbox.chats.recipient','username').then(
+            //     populated=>{
+            //         res.json(populated.inbox[0])
+            //     }
+            // )
+            res.json(user.inbox[0])
         })
         .catch(err => {
             res.json(err)

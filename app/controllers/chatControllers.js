@@ -27,7 +27,9 @@ chatControllers.sendChat = async (req,res) => {
                             }
                         }
                     },{new:true})
-                    .then()
+                    .then(entry => {
+                        res.json(entry)
+                    })
                     .catch(err => {
                         res.status(502).json({
                             ok: false,
@@ -46,9 +48,11 @@ chatControllers.sendChat = async (req,res) => {
                         new: true
                     })
                     .then(chat => res.json(chat))
-                    res.status(502).json({
-                        ok: false,
-                        err
+                    .catch(err => {
+                        res.status(502).json({
+                            ok: false,
+                            err
+                        })
                     })
                 }
             })
