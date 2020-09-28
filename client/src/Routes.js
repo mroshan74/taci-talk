@@ -3,7 +3,7 @@ import App from './App'
 
 const Routes = () => (
     <Fragment>
-        <h1>Hello React</h1>
+        <h1>chat - alphaBuild v0.0</h1>
         <App />
     </Fragment>
 )

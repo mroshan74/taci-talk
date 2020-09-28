@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const { Chat } = require('../models/chat')
+const { GroupChat } = require('../models/groupChat')
 const chatControllers = {}
 
 chatControllers.sendChat = async (req,res) => {
@@ -108,6 +109,73 @@ chatControllers.sendChat = async (req,res) => {
             err
         })
     }
+}
+
+chatControllers.createGroup = (req,res) => {
+    const { body } = req
+    const group = new GroupChat(body)
+    group.save()
+        .then(group => {
+            res.json({
+                ok: true,
+                msg: 'Group created successfully',
+                group
+            })
+        })
+        .catch(err => {
+            res.status(502).json({
+                ok: false,
+                msg: 'Failed to create group',
+                err
+            })
+        })
+}
+
+chatControllers.groupChat = (req,res) => {
+    const _id = req.params.groupId
+    const { body } = req
+    GroupChat.findOneAndUpdate({_id},{
+        $push: {
+            inbox: {
+                ...body
+            }
+        }
+    },{
+        new: true
+    })
+        .then(group => {
+            if(group){
+                res.json({ok:true,group})
+            }
+            else{
+                res.json({ok:false})
+
+            }
+        })
+        .catch(err =>{
+            res.json({ok:false,err})
+
+        })
+}
+
+chatControllers.getGroupChat = (req,res) => {
+    const _id = req.params.groupId
+    GroupChat.findOne({_id})
+        .then(group => {
+            res.json({
+                ok: true,
+                _id: group.groupId,
+                inbox: group.inbox,
+                groupName: group.groupName
+            })
+        })
+        .catch(err => {
+            res.status(502).json({
+                ok: false,
+                msg: 'Date fetch Failed',
+                err
+            })
+        })
 }
 
 module.exports = chatControllers

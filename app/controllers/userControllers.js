@@ -20,13 +20,21 @@ userControllers.getUserChat = (req,res) => {
         .populate('inbox.info','username')
         .populate('inbox.chats', 'sender recipient message')
         .then(user => {
-            // user.execPopulate('inbox.chats.sender','username')
+            if(user){
+                // user.execPopulate('inbox.chats.sender','username')
             // user.execPopulate('inbox.chats.recipient','username').then(
             //     populated=>{
             //         res.json(populated.inbox[0])
             //     }
             // )
-            res.json(user.inbox[0])
+                res.json(user.inbox[0])
+            }
+            else{
+                res.json({
+                    ok: false,
+                    msg: 'No chats found'
+                })
+            }
         })
         .catch(err => {
             res.json(err)

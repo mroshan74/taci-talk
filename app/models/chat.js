@@ -21,6 +21,10 @@ const chatSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now
+        },
+        chatType: {
+            type: String,
+            default: 'dm'
         }
     },
     { timestamps: true }
